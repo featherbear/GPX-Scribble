@@ -4,46 +4,49 @@
 
   onMount(async () => {
     const leaflet = (await import("leaflet-filelayer")).default();
-    var control;
 
     var osm = leaflet.tileLayer(
-      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+      // "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
+      // "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+      // "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         attribution: "Map data &copy; 2013 OpenStreetMap contributors",
       }
     );
 
-    var map = leaflet
-      .map("map", {
-        center: [0, 0],
-        zoom: 2,
-      })
-      .addLayer(osm);
+    let map = leaflet.map("map", { center: [0, 0], zoom: 2 }).addLayer(osm);
 
     var style = {
       color: "red",
       opacity: 1.0,
-      fillOpacity: 1.0,
+      fillOpacity: 0.2,
       weight: 2,
-      clickable: false,
+      clickable: false
     };
 
-    leaflet.Control.FileLayerLoad.LABEL =
-      '<img class="icon" src="./folder.svg" alt="file icon" style="max-width: 70%; max-height: 70%; margin: 4px;" />';
-    control = leaflet.Control.fileLayerLoad({
-      fitBounds: true,
-      layerOptions: {
-        style: style,
-        pointToLayer: function (data, latlng) {
-          returnleaflet.circleMarker(latlng, { style: style });
+    (function () {
+      leaflet.Control.FileLayerLoad.LABEL =
+        '<img class="icon" src="./folder.svg" alt="file icon" style="max-width: 70%; max-height: 70%; margin: 4px;" />';
+
+      let fileLoader = leaflet.Control.fileLayerLoad({
+        fitBounds: true,
+        layerOptions: {
+          style: style,
+          pointToLayer: function (data, latlng) {
+            return leaflet.circleMarker(latlng, { style });
+          },
+          onEachFeature: function (feature, layer) {
+            console.log(arguments)
+          },
         },
-      },
-    });
-    control.addTo(map);
-    control.loader.on("data:loaded", function (e) {
-      var layer = e.layer;
-      console.log(layer);
-    });
+      });
+      fileLoader.addTo(map);
+      fileLoader.loader.on("data:loaded", function (e) {
+        var layer = e.layer;
+        console.log(layer);
+      });
+    })();
   });
 </script>
 
@@ -90,10 +93,10 @@
 </style>
 
 <main>
-
+  <!-- 
   <p class="help">
     Click on the icon to browse and load local files on the map.
-  </p>
+  </p> -->
   <div id="map" />
 
 </main>

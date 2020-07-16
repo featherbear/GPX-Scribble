@@ -2,6 +2,7 @@
   "name": "GPX-Scribble",
   "description": "Barebones GPX Editor",
   "version": "0.0.1",
+  "homepage": "./",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",

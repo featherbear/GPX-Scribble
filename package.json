@@ -13,8 +13,13 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
+    "leaflet": "^1.6.0",
+    "leaflet-filelayer": "^1.2.0",
+    "node-sass": "^4.14.1",
     "polka": "next",
-    "sirv": "^0.4.0"
+    "sirv": "^0.4.0",
+    "svelte-preprocess": "^4.0.8",
+    "togeojson": "^0.16.0"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
